@@ -5,23 +5,35 @@ using UnityEngine;
 public class ScreenBounds : MonoBehaviour
 {
     private Camera cam;
+    private float wrapMargin = 5f;
 
     private void Awake() {
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
 
     private void Update() {
-        Vector2 viewportPosition = cam.WorldToViewportPoint(transform.position);
-        Vector2 newPosition = transform.position;
+        Vector2 screenPosition = cam.WorldToScreenPoint(transform.position);
 
-        if (viewportPosition.x > 1 || viewportPosition.x < 0) {
-            newPosition.x = -newPosition.x;
+        if(screenPosition.x < 0)
+        {
+            screenPosition.x = Screen.width - wrapMargin;
         }
 
-        if (viewportPosition.y > 1 || viewportPosition.y < 0) {
-            newPosition.y = -newPosition.y;
+        if(screenPosition.x > Screen.width)
+        {
+            screenPosition.x = wrapMargin;
         }
 
-        transform.position = newPosition;
+        if (screenPosition.y < 0)
+        {
+            screenPosition.y = Screen.height - wrapMargin;
+        }
+
+        if (screenPosition.y > Screen.height)
+        {
+            screenPosition.y = wrapMargin;
+        }
+
+        transform.position = (Vector2) cam.ScreenToWorldPoint(screenPosition);
     }
 }
