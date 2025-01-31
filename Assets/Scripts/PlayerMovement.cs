@@ -33,10 +33,10 @@ public class PlayerMovement : MonoBehaviour
 
     //Clamp velocity according to max velocity
     private void ClampVelocity() {
-        float x = Mathf.Clamp(rb.velocity.x, -maxVelocity, maxVelocity);
-        float y = Mathf.Clamp(rb.velocity.y, -maxVelocity, maxVelocity);
+        float x = Mathf.Clamp(rb.linearVelocity.x, -maxVelocity, maxVelocity);
+        float y = Mathf.Clamp(rb.linearVelocity.y, -maxVelocity, maxVelocity);
 
-        rb.velocity = new Vector2(x, y);
+        rb.linearVelocity = new Vector2(x, y);
     }
 
     //Apply forward force
